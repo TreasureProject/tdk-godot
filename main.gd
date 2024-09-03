@@ -18,7 +18,7 @@ func _ready():
 func _on_get_user():
 	var auth_token = TreasureLauncher.get_auth_token()
 	if auth_token != null:
-		var result = await TreasureLauncher.get_user("https://tdk-api.spellcaster.lol", TreasureLauncher.get_auth_token())
+		var result = await TreasureLauncher.get_user("https://tdk-api.spellcaster.lol", auth_token)
 		if result.response_code == 200:
 			var user_data = JSON.parse_string(result.body.get_string_from_utf8())
 			request_result_label.text = str("Response (get_user):\n", JSON.stringify(user_data, "\t"))
