@@ -21,7 +21,7 @@ func get_user(api_url: String, auth_token: String):
 	var error = http_request.request(api_url + "/users/me", headers, HTTPClient.METHOD_GET)
 
 	var result = {
-		"error": error,
+		"error_code": error,
 		"result": null,
 		"response_code": null,
 		"headers": null,
@@ -65,7 +65,7 @@ func start_session(
 	var error = http_request.request("http://localhost:16001/tdk-start-session", headers, HTTPClient.METHOD_POST, json_string)
 
 	var result = {
-		"error": error,
+		"error_code": error,
 		"result": null,
 		"response_code": null,
 		"headers": null,

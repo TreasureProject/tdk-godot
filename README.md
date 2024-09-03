@@ -1,5 +1,11 @@
 # tdk-gdscript
 
+## Installing the plugin
+
+Copy the `/addons/treasure_launcher` folder into the `res://addons` folder in your project.
+
+To enable the plugin, go to Project > Project Settings > Plugins, and check the "Enabled" box for the TreasureLauncher entry.
+
 ### Get Auth Token
 
 ```
