@@ -3,19 +3,17 @@
 ### Get Auth Token
 
 ```
-const AuthToken = preload("res://TDK/Source/auth_token.gd")
-
 func _ready():
-	var authToken = AuthToken.new().getAuthToken()
-	if authToken != null:
-		print("Found auth token: ", authToken)
+	var auth_token = TreasureLauncher.get_auth_token()
+	if auth_token != null:
+		print(str("Found auth token: ", auth_token))
 	else:
 		print("No auth token found!")
 ```
 
 ### Start Session
 
-Example usage available [here](/TDK/Examples/auth_and_session.gd).
+Example usage available [here](/main.gd) (_on_start_session method).
 
 Example success response
 ```json
@@ -33,7 +31,7 @@ Example error response
 
 ### Get User
 
-Example usage available [here](/TDK/Examples/auth_and_user.gd).
+Example usage available [here](/main.gd) (_on_get_user method).
 
 Example success response
 ```json
