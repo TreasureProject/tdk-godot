@@ -21,14 +21,26 @@ func _ready():
 
 Example usage available [here](/main.gd) (_on_start_session method).
 
-Example success response
+```js
+var result = await TreasureLauncher.start_session("0x", [], 0, 0, 0)
+print(result)
+// {
+// 	  "error_code": 0,
+// 	  "result": 0,
+// 	  "response_code": 200,
+// 	  "headers": [],
+// 	  "body": '{ "result": true }'
+// }
+```
+
+Example success response body
 ```json
 {
     "result": true
 }
 ```
 
-Example error response
+Example error response body
 ```json
 {
     "error": "A user is not logged in to perform a start session call"
@@ -39,7 +51,20 @@ Example error response
 
 Example usage available [here](/main.gd) (_on_get_user method).
 
-Example success response
+```js
+var auth_token = TreasureLauncher.get_auth_token()
+var result = await TreasureLauncher.get_user("https://tdk-api.spellcaster.lol", auth_token)
+print(result)
+// {
+// 	  "error_code": 0,
+// 	  "result": 0,
+// 	  "response_code": 200,
+// 	  "headers": [],
+// 	  "body": '{ "id": "...", ... }'
+// }
+```
+
+Example success response body
 ```json
 {
     "id": "clziu5ii600029tse5hb91byg",
@@ -68,7 +93,7 @@ Example success response
 }
 ```
 
-Example error response
+Example error response body
 ```json
 {
     "code": "AUTH_UNAUTHORIZED",

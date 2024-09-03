@@ -11,7 +11,7 @@ func get_auth_token():
 	
 	return null
 
-func get_user(api_url: String, auth_token: String):
+func get_user(api_url: String, auth_token: String) -> Dictionary:
 	var http_request = HTTPRequest.new()
 	http_request.timeout = 30
 	add_child(http_request)
@@ -45,7 +45,7 @@ func start_session(
 	nativeTokenLimitPerTransaction: int = 0,
 	sessionDurationSec: int = 0,
 	sessionMinDurationLeftSec: int = 0
-):
+) -> Dictionary:
 	var http_request = HTTPRequest.new()
 	http_request.timeout = 30
 	add_child(http_request)
