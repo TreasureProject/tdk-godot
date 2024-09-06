@@ -1,30 +1,46 @@
 # tdk-gdscript
 
+## Installing the plugin
+
+Copy the `/addons/treasure_launcher` folder into the `res://addons` folder in your project.
+
+To enable the plugin, go to Project > Project Settings > Plugins, and check the "Enabled" box for the TreasureLauncher entry.
+
 ### Get Auth Token
 
 ```
-const AuthToken = preload("res://TDK/Source/auth_token.gd")
-
 func _ready():
-	var authToken = AuthToken.new().getAuthToken()
-	if authToken != null:
-		print("Found auth token: ", authToken)
+	var auth_token = TreasureLauncher.get_auth_token()
+	if auth_token != null:
+		print(str("Found auth token: ", auth_token))
 	else:
 		print("No auth token found!")
 ```
 
 ### Start Session
 
-Example usage available [here](/TDK/Examples/auth_and_session.gd).
+Example usage available [here](/main.gd) (_on_start_session method).
 
-Example success response
+```js
+var result = await TreasureLauncher.start_session("0x", [], 0, 0, 0)
+print(result)
+// {
+// 	  "error_code": 0,
+// 	  "result": 0,
+// 	  "response_code": 200,
+// 	  "headers": [],
+// 	  "body": '{ "result": true }'
+// }
+```
+
+Example success response body
 ```json
 {
     "result": true
 }
 ```
 
-Example error response
+Example error response body
 ```json
 {
     "error": "A user is not logged in to perform a start session call"
@@ -33,9 +49,22 @@ Example error response
 
 ### Get User
 
-Example usage available [here](/TDK/Examples/auth_and_user.gd).
+Example usage available [here](/main.gd) (_on_get_user method).
 
-Example success response
+```js
+var auth_token = TreasureLauncher.get_auth_token()
+var result = await TreasureLauncher.get_user("https://tdk-api.spellcaster.lol", auth_token)
+print(result)
+// {
+// 	  "error_code": 0,
+// 	  "result": 0,
+// 	  "response_code": 200,
+// 	  "headers": [],
+// 	  "body": '{ "id": "...", ... }'
+// }
+```
+
+Example success response body
 ```json
 {
     "id": "clziu5ii600029tse5hb91byg",
@@ -64,7 +93,7 @@ Example success response
 }
 ```
 
-Example error response
+Example error response body
 ```json
 {
     "code": "AUTH_UNAUTHORIZED",

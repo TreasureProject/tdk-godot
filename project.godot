@@ -1,0 +1,28 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Treasure Launcher Godot"
+run/main_scene="res://main.tscn"
+config/features=PackedStringArray("4.3", "Forward Plus")
+config/icon="res://icon.svg"
+
+[autoload]
+
+TreasureLauncher="*res://addons/treasure_launcher/treasure_launcher.gd"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/treasure_launcher/plugin.cfg")
+
+[rendering]
+
+textures/vram_compression/import_etc2_astc=true

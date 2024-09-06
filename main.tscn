@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=3 uid="uid://iloxhoece8ke"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_h44hv"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_h44hv")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="AuthTokenLabel" type="Label" parent="Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "-"
+
+[node name="GetUser" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 56.0
+offset_right = 76.0
+offset_bottom = 87.0
+text = "Get user"
+
+[node name="StartSession" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 93.0
+offset_right = 77.0
+offset_bottom = 124.0
+text = "Start session"
+
+[node name="RequestResultLabel" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 131.0
+offset_right = 44.0
+offset_bottom = 154.0
+text = "-"
