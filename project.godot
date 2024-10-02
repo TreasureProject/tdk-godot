@@ -17,11 +17,11 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-TreasureLauncher="*res://addons/treasure_launcher/treasure_launcher.gd"
+TDK="*res://addons/tdk/tdk.gd"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/treasure_launcher/plugin.cfg")
+enabled=PackedStringArray("res://addons/tdk/plugin.cfg")
 
 [rendering]
 
