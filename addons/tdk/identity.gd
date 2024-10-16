@@ -11,34 +11,8 @@ func get_auth_token():
 	
 	return null
 
-func get_user(api_url: String, auth_token: String) -> Dictionary:
-	var http_request = HTTPRequest.new()
-	http_request.timeout = 30
-	add_child(http_request)
-
-	var headers = ["Content-Type: application/json", "Authorization: " + auth_token]
-
-	var error = http_request.request(api_url + "/users/me", headers, HTTPClient.METHOD_GET)
-
-	# TODO dry
-	var result = {
-		"error_code": error,
-		"result": null,
-		"response_code": null,
-		"headers": null,
-		"body": null
-	}
-
-	if error == OK:
-		var req_result = await http_request.request_completed
-		result.result = req_result[0]
-		result.response_code = req_result[1]
-		result.headers = req_result[2]
-		result.body = req_result[3]
-	
-	http_request.queue_free()
-	
-	return result
+func get_user(api_url: String, auth_token: String) -> Dictionary:	
+	return await _http_get(api_url + "/users/me", { "Authorization": auth_token })
 
 func start_session(
 	backendWallet: String,
@@ -47,10 +21,6 @@ func start_session(
 	sessionDurationSec: int = 0,
 	sessionMinDurationLeftSec: int = 0
 ) -> Dictionary:
-	var http_request = HTTPRequest.new()
-	http_request.timeout = 30
-	add_child(http_request)
-	
 	var request_body = {
 		"backendWallet": backendWallet,
 		"approvedTargets": approvedTargets,
@@ -59,11 +29,32 @@ func start_session(
 		"sessionMinDurationLeftSec": sessionMinDurationLeftSec  # optional
 	}
 
-	var json_string = JSON.stringify(request_body)
+	return await _http_post("http://localhost:16001/tdk-start-session", request_body)
 
-	var headers = ["Content-Type: application/json"]
+func _http_get(route: String, extra_headers = {}):
+	return await _http_request(route, extra_headers, HTTPClient.METHOD_GET)
 
-	var error = http_request.request("http://localhost:16001/tdk-start-session", headers, HTTPClient.METHOD_POST, json_string)
+func _http_post(route: String, body = {}, extra_headers = {}):
+	extra_headers["Content-Type"] = "application/json"
+	var request_data = JSON.stringify(body)
+	return await _http_request(route, extra_headers, HTTPClient.METHOD_POST, request_data)
+
+func _http_request(
+	route: String,
+	extra_headers: Dictionary,
+	method: HTTPClient.Method,
+	request_data = ""
+):
+	var headers = []
+	for key in extra_headers:
+		var value = extra_headers[key]
+		headers.append(str(key,": ",value))
+
+	var http_request = HTTPRequest.new()
+	http_request.timeout = 30
+	add_child(http_request)
+
+	var error = http_request.request(route, headers, method, request_data)
 
 	var result = {
 		"error_code": error,
@@ -79,7 +70,7 @@ func start_session(
 		result.response_code = req_result[1]
 		result.headers = req_result[2]
 		result.body = req_result[3]
-	
+
 	http_request.queue_free()
-	
+
 	return result
