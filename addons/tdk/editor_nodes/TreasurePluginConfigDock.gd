@@ -1,6 +1,8 @@
 @tool
 extends PanelContainer
 
+var TDKConfig = preload("res://addons/tdk/resources/tdk_config.gd")
+
 @onready var submit_button = $Container/ConfigJSON/Buttons/Submit
 @onready var close_button = $Container/ConfigJSON/Buttons/Close
 @onready var config_json_input = $Container/ConfigJSON/Input
@@ -21,9 +23,8 @@ func _on_submit():
 		return;
 	
 	var json_dict = json_loader.data
-	var tdk_user_config = json_dict.general
 	
-	# TODO create resource class
-	# TODO instantiate, populate and save resource with json data
-
-	print(tdk_user_config)
+	var config = TDKConfig.new()
+	config.populate_from_json(json_dict)
+	
+	ResourceSaver.save(config, "res://addons/tdk/resources/tdk_config.tres")
