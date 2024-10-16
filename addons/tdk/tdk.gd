@@ -1,7 +1,7 @@
 extends Node
 
-var Identity = preload("res://addons/tdk/identity.gd")
-var Analytics = preload("res://addons/tdk/analytics.gd")
+var Identity = preload("res://addons/tdk/modules/identity.gd")
+var Analytics = preload("res://addons/tdk/modules/analytics.gd")
 
 var _identity = Identity.new()
 

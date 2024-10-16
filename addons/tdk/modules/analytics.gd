@@ -1,7 +1,8 @@
 extends Node
 
 var version = preload("res://addons/tdk/version.gd")
-var uuid = preload("res://addons/tdk/uuid.gd")
+var uuid = preload("res://addons/tdk/helpers/uuid.gd")
+var tdk_config = preload("res://addons/tdk/resources/tdk_config.tres")
 
 var _uuid_rng = RandomNumberGenerator.new()
 var _session_id = null
@@ -23,7 +24,7 @@ func _build_base_event() -> Dictionary:
 	return {
 		# AnalyticsConstants.PROP_SMART_ACCOUNT: "", # TODO read from auth token (identity)
 		# AnalyticsConstants.PROP_CHAIN_ID: "", # TODO check if auth token has it
-		# AnalyticsConstants.CARTRIDGE_TAG: "", # TODO port config modal from tdk-godot-cs
+		AnalyticsConstants.CARTRIDGE_TAG: tdk_config.cartridge_tag,
 		AnalyticsConstants.PROP_SESSION_ID: _session_id,
 		AnalyticsConstants.PROP_ID: uuid.v4_rng(_uuid_rng),
 		AnalyticsConstants.PROP_TDK_VERSION: version.version,
@@ -35,23 +36,28 @@ func _build_base_event() -> Dictionary:
 	}
 
 func _build_device_info() -> Dictionary:
-	return {
+	var result = {
 		AnalyticsConstants.PROP_DEVICE_NAME: "Not available",
 		AnalyticsConstants.PROP_DEVICE_MODEL: OS.get_model_name(),
 		AnalyticsConstants.PROP_DEVICE_TYPE: "Not available",
-		AnalyticsConstants.PROP_DEVICE_UNIQUE_ID: OS.get_unique_id(), # TODO skip on web to avoid error
 		AnalyticsConstants.PROP_DEVICE_OS: OS.get_name(),
 		AnalyticsConstants.PROP_DEVICE_OS_FAMILY: OS.get_distribution_name(),
 		AnalyticsConstants.PROP_DEVICE_CPU: OS.get_processor_name()
 	}
+	if OS.get_name() != "Web":
+		result[AnalyticsConstants.PROP_DEVICE_UNIQUE_ID] = OS.get_unique_id()
+	else:
+		# get_unique_id generates an error when used on web
+		result[AnalyticsConstants.PROP_DEVICE_UNIQUE_ID] = ""
+	return result
 
 func _build_app_info() -> Dictionary:
 	return {
-		AnalyticsConstants.PROP_APP_IDENTIFIER: "bundle_id", # TODO port config modal from tdk-godot-cs
+		AnalyticsConstants.PROP_APP_IDENTIFIER: tdk_config.bundle_id,
 		AnalyticsConstants.PROP_APP_IS_EDITOR: Engine.is_editor_hint(),
 		# NOTE this does not use any version defined as an export option: it only uses the one in project settings
 		AnalyticsConstants.PROP_APP_VERSION: ProjectSettings.get_setting_with_override("application/config/version"),
-		AnalyticsConstants.PROP_APP_ENVIRONMENT: "env" # TODO port config modal from tdk-godot-cs
+		AnalyticsConstants.PROP_APP_ENVIRONMENT: tdk_config.environment,
 	}
 
 class AnalyticsConstants:
