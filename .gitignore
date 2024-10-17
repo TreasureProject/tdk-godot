@@ -7,3 +7,5 @@
 *.app
 *.dmg
 export_presets.cfg
+
+tdk_config.tres
