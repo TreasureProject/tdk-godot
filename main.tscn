@@ -33,6 +33,14 @@ offset_right = 77.0
 offset_bottom = 124.0
 text = "Start session"
 
+[node name="TrackCustomEvent" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 176.0
+offset_right = 110.0
+offset_bottom = 207.0
+text = "Send test event"
+
 [node name="RequestResultLabel" type="Label" parent="Control"]
 layout_mode = 0
 offset_left = 4.0

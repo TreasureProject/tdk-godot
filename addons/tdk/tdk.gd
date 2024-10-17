@@ -4,6 +4,11 @@ var Identity = preload("res://addons/tdk/modules/identity.gd")
 var Analytics = preload("res://addons/tdk/modules/analytics.gd")
 
 var _identity = Identity.new()
+var _analytics = Analytics.new()
+
+func _init() -> void:
+	add_child(_identity)
+	add_child(_analytics)
 
 func get_auth_token():
 	return _identity.get_auth_token()
@@ -27,4 +32,4 @@ func start_session(
 	)
 
 func track_custom_event(event_name: String, event_props: Dictionary):
-	await track_custom_event(event_name, event_props)
+	await _analytics.track_custom_event(event_name, event_props)

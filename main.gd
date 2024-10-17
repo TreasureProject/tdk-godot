@@ -4,10 +4,12 @@ extends Node2D
 @onready var request_result_label = $Control/RequestResultLabel
 @onready var get_user_button = $Control/GetUser
 @onready var start_session_button = $Control/StartSession
+@onready var track_event_button = $Control/TrackCustomEvent
 
 func _ready():
 	get_user_button.pressed.connect(_on_get_user)
 	start_session_button.pressed.connect(_on_start_session)
+	track_event_button.pressed.connect(_on_track_event)
 
 	var auth_token = TDK.get_auth_token()
 	if auth_token != null:
@@ -20,7 +22,7 @@ func _on_get_user():
 	if auth_token != null:
 		var result = await TDK.get_user("https://tdk-api.spellcaster.lol", auth_token)
 		if result.response_code == 200:
-			var user_data = JSON.parse_string(result.body.get_string_from_utf8())
+			var user_data = JSON.parse_string(result.body)
 			request_result_label.text = str("Response (get_user):\n", JSON.stringify(user_data, "\t"))
 		else:
 			request_result_label.text = str("An error ocurred. Result:\n", JSON.stringify(result, "\t"))
@@ -30,6 +32,9 @@ func _on_get_user():
 func _on_start_session():
 	var result = await TDK.start_session("0x", [], 0, 0, 0)
 	if result.response_code == 200:
-		request_result_label.text = str("Response (start_session):\n", result.body.get_string_from_utf8())
+		request_result_label.text = str("Response (start_session):\n", result.body)
 	else:
 		request_result_label.text = str("An error ocurred. Result:\n", JSON.stringify(result, "\t"))
+
+func _on_track_event():
+	TDK.track_custom_event("custom_event", {"custom_event_key": "hello world"})

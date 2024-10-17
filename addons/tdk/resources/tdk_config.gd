@@ -2,9 +2,9 @@ extends Resource
 
 enum Env { DEV, PROD }
 
-@export var environment : Env
+@export var _environment : Env
 # TODO get bundleId from engine if possible
-@export var bundleId = "com.companyName.productName"
+@export var _bundleId = "com.companyName.productName"
 # TODO logger level/enabled flag
 
 @export_group("General")
@@ -23,7 +23,29 @@ enum Env { DEV, PROD }
 @export var _analyticsDevApiUrl : String
 @export var _analyticsProdApiUrl : String
 
-# TODO getters based on env
+func get_cartridge_tag():
+	return _cartridgeTag
+
+func get_analytics_api_url():
+	return _analyticsDevApiUrl if is_dev_env() else _analyticsProdApiUrl
+
+func get_api_url():
+	return _devApiUrl if is_dev_env() else _prodApiUrl
+
+func get_api_key():
+	return _devApiKey if is_dev_env() else _prodApiKey
+
+func get_client_id():
+	return _devClientId if is_dev_env() else _prodClientId
+
+func get_bundle_id():
+	return _bundleId
+
+func get_environment():
+	return _environment
+
+func is_dev_env():
+	return _environment == Env.DEV
 
 func populate_from_json(json : Dictionary):
 	# general
