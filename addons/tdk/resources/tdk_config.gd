@@ -16,8 +16,15 @@ enum Env { DEV, PROD }
 @export var _prodApiKey = ""
 @export var _devClientId = ""
 @export var _prodClientId = ""
-@export var _ecosystemId = ""
-@export var _ecosystemPartnerId = ""
+
+@export_group("Connect", "_connect")
+@export var _connectDevEcosystemId = ""
+@export var _connectProdEcosystemId = ""
+@export var _connectDevEcosystemPartnerId = ""
+@export var _connectProdEcosystemPartnerId = ""
+@export var _connectSessionDurationSec = 0
+@export var _connectSessionMinDurationLeftSec = 0
+@export var _connectSessionOptions = []
 
 @export_group("Analytics", "_analytics")
 @export var _analyticsDevApiUrl : String
@@ -57,8 +64,14 @@ func populate_from_json(json : Dictionary):
 	_prodApiKey = json.general.prodApiKey
 	_devClientId = json.general.devClientId
 	_prodClientId = json.general.prodClientId
-	_ecosystemId = json.general.get("ecosystemId", "ecosystem.treasure")
-	_ecosystemPartnerId = json.general.ecosystemPartnerId
+	# connect
+	_connectDevEcosystemId = json.connect.get("devEcosystemId", "ecosystem.treasure-dev")
+	_connectProdEcosystemId = json.connect.get("prodEcosystemId", "ecosystem.treasure")
+	_connectDevEcosystemPartnerId = json.connect.devEcosystemPartnerId
+	_connectProdEcosystemPartnerId = json.connect.prodEcosystemPartnerId
+	_connectSessionDurationSec = json.connect.sessionDurationSec
+	_connectSessionMinDurationLeftSec = json.connect.sessionMinDurationLeftSec
+	_connectSessionOptions = json.connect.get("sessionOptions", [])
 	# analytics
 	_analyticsDevApiUrl = json.analytics.get("devApiUrl", "https://darkmatter.spellcaster.lol/ingress")
 	_analyticsProdApiUrl = json.analytics.get("prodApiUrl", "https://darkmatter.treasure.lol/ingress")
