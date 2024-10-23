@@ -5,7 +5,7 @@ enum Env { DEV, PROD }
 @export var _environment : Env
 # TODO get bundleId from engine if possible
 @export var _bundleId = "com.companyName.productName"
-# TODO logger level/enabled flag
+@export var _debug_logging_enabled = false
 
 @export_group("General")
 @export var _cartridgeTag = ""
@@ -53,6 +53,9 @@ func get_environment():
 
 func is_dev_env():
 	return _environment == Env.DEV
+
+func is_debug_logging_enabled():
+	return _debug_logging_enabled
 
 func populate_from_json(json : Dictionary):
 	# general

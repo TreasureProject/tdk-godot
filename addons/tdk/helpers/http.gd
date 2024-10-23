@@ -11,7 +11,6 @@ func http_get(route: String, extra_headers = {}):
 func http_post(route: String, body = {}, extra_headers = {}):
 	extra_headers["Content-Type"] = "application/json"
 	var request_data = JSON.stringify(body)
-	print(route)
 	return await _http_request(route, extra_headers, HTTPClient.METHOD_POST, request_data)
 
 func _http_request(

@@ -2,9 +2,11 @@ extends Node
 
 var Identity = preload("res://addons/tdk/modules/identity.gd")
 var Analytics = preload("res://addons/tdk/modules/analytics.gd")
+var Logger = preload("res://addons/tdk/helpers/logger.gd")
 
 var _identity = Identity.new()
 var _analytics = Analytics.new()
+var logger = Logger.new()
 
 func _init() -> void:
 	add_child(_identity)

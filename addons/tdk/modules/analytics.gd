@@ -22,13 +22,13 @@ func track_custom_event(event_name: String, event_props: Dictionary):
 	var event_data = _build_base_event()
 	event_data[AnalyticsConstants.PROP_NAME] = event_name
 	event_data[AnalyticsConstants.PROP_PROPERTIES] = event_props
+	TDK.logger.log_info(str("Sending analytics event: ", event_data))
 	var result = await http.http_post(
 		tdk_config.get_analytics_api_url().trim_suffix("/") + "/events",
 		event_data,
 		{ "x-api-key": tdk_config.get_api_key() }
 	)
-	print(event_data)
-	print(result) # TODO better logging
+	TDK.logger.log_info(str("Response code: ", result.response_code))
 
 func _build_base_event() -> Dictionary:
 	return {
