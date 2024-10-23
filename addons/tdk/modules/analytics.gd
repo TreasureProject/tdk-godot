@@ -21,18 +21,19 @@ func _init() -> void:
 func track_custom_event(event_name: String, event_props: Dictionary):
 	var event_data = _build_base_event()
 	event_data[AnalyticsConstants.PROP_NAME] = event_name
-	event_data[AnalyticsConstants.PROP_PROPERTIES] = event_props # TODO ensure serialization works
+	event_data[AnalyticsConstants.PROP_PROPERTIES] = event_props
 	var result = await http.http_post(
 		tdk_config.get_analytics_api_url().trim_suffix("/") + "/events",
 		event_data,
 		{ "x-api-key": tdk_config.get_api_key() }
 	)
+	print(event_data)
 	print(result) # TODO better logging
 
 func _build_base_event() -> Dictionary:
 	return {
-		# AnalyticsConstants.PROP_SMART_ACCOUNT: "", # TODO read from auth token (identity)
-		# AnalyticsConstants.PROP_CHAIN_ID: "", # TODO check if auth token has it
+		AnalyticsConstants.PROP_SMART_ACCOUNT: TDK.get_wallet_address(),
+		AnalyticsConstants.PROP_CHAIN_ID: "", # TODO populate this if we add chain switching support
 		AnalyticsConstants.CARTRIDGE_TAG: tdk_config.get_cartridge_tag(),
 		AnalyticsConstants.PROP_SESSION_ID: _session_id,
 		AnalyticsConstants.PROP_ID: uuid.v4_rng(_uuid_rng),

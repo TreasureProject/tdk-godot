@@ -31,5 +31,8 @@ func start_session(
 		sessionMinDurationLeftSec
 	)
 
+func get_wallet_address():
+	return _identity.get_wallet_address()
+
 func track_custom_event(event_name: String, event_props: Dictionary):
 	await _analytics.track_custom_event(event_name, event_props)
