@@ -6,6 +6,7 @@
 .DS_Store
 *.app
 *.dmg
+*.command
 export_presets.cfg
 
 tdk_config.tres

@@ -51,4 +51,4 @@ func _get_wallet_address_from_auth_token():
 	var content = get_auth_token().split(".")[1]
 	var decoded = Marshalls.base64_to_utf8(content)
 	var parsed_jwt = JSON.parse_string(decoded)
-	return parsed_jwt.ctx.smartAccountAddress
+	return parsed_jwt.ctx.address
