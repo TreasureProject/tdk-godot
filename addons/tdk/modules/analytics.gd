@@ -11,6 +11,7 @@ var _uuid_rng = RandomNumberGenerator.new()
 var _session_id = null
 var _device_info : Dictionary
 var _app_info : Dictionary
+var _time_keeper = null
 
 func _init() -> void:
 	_uuid_rng.randomize()
@@ -30,6 +31,9 @@ func track_custom_event(event_name: String, event_props: Dictionary):
 	)
 	TDK.logger.log_info(str("Response code: ", result.response_code))
 
+func set_time_keeper(time_keeper):
+	_time_keeper = time_keeper
+
 func _build_base_event() -> Dictionary:
 	return {
 		AnalyticsConstants.PROP_SMART_ACCOUNT: TDK.get_wallet_address(),
@@ -39,8 +43,8 @@ func _build_base_event() -> Dictionary:
 		AnalyticsConstants.PROP_ID: uuid.v4_rng(_uuid_rng),
 		AnalyticsConstants.PROP_TDK_VERSION: version.version,
 		AnalyticsConstants.PROP_TDK_FLAVOUR: version.name,
-		# AnalyticsConstants.PROP_TIME_LOCAL: "", # TODO add TDKTimeKeeper equivalent
-		# AnalyticsConstants.PROP_TIME_SERVER: "",
+		AnalyticsConstants.PROP_TIME_LOCAL: _time_keeper.get_local_epoch_time(),
+		AnalyticsConstants.PROP_TIME_SERVER: _time_keeper.get_server_epoch_time(),
 		AnalyticsConstants.PROP_DEVICE: _device_info,
 		AnalyticsConstants.PROP_APP: _app_info,
 	}
